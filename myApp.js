@@ -2,8 +2,16 @@ require('dotenv').config();
 
 let Person = require("./models/person.model");
 
-const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+var createAndSavePerson = (done) => {
+  var person = new Person({
+    name: "Irwing", 
+    age: 31, 
+    favoriteFoods: ["Fries pork"]
+  });
+  person.save(function(err, data) {
+    if (err) return console.error(err);
+    done(null, data)
+  });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {

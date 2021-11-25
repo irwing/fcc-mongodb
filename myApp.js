@@ -2,6 +2,12 @@ require('dotenv').config();
 
 let Person = require("./models/person.model");
 
+var peoples = [
+  {name: "Irwing", age: 31, favoriteFoods: ["Pork fried"]},
+  {name: "Carlos", age: 35, favoriteFoods: ["Hanburger"]},
+  {name: "Paola", age: 27, favoriteFoods: ["Sushi"]}
+];
+
 var createAndSavePerson = (done) => {
   var person = new Person({
     name: "Irwing", 
@@ -13,12 +19,6 @@ var createAndSavePerson = (done) => {
     done(null, data)
   });
 };
-
-var peoples = [
-  {name: "Irwing", age: 31, favoriteFoods: ["Pork fried"]},
-  {name: "Carlos", age: 35, favoriteFoods: ["Hanburger"]},
-  {name: "Paola", age: 27, favoriteFoods: ["Sushi"]}
-];
 
 const createManyPeople = (peoples, done) => {
   Person.create(peoples, function (err, people) {
@@ -66,7 +66,10 @@ const findEditThenSave = (personId, done) => {
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
 
-  done(null /*, data*/);
+  Person.findOneAndUpdate({name: personName}, {age: ageToSet}, {new: true}, (err, updatedDoc) => {
+    if(err) return console.log(err);
+    done(null, updatedDoc);
+  })
 };
 
 const removeById = (personId, done) => {
